@@ -11,10 +11,14 @@ export default function Leads() {
   const [status, setStatus] = useState('');
   const [leadSource, setLeadSource] = useState('');
   const [search, setSearch] = useState('');
+  
+  // 1. NEW: Added state for assigned salesperson
+  const [assignedSalesperson, setAssignedSalesperson] = useState('');
 
   useEffect(() => {
     loadLeads();
-  }, [status, leadSource, search]);
+  // 2. NEW: Added assignedSalesperson to dependency array
+  }, [status, leadSource, search, assignedSalesperson]);
 
   const loadLeads = async () => {
     try {
@@ -23,6 +27,9 @@ export default function Leads() {
       if (status) filters.status = status;
       if (leadSource) filters.leadSource = leadSource;
       if (search) filters.search = search;
+      
+      // 3. NEW: Added filter logic for assignedSalesperson
+      if (assignedSalesperson) filters.assignedSalesperson = assignedSalesperson;
 
       const response = await leadsAPI.getAll(filters);
       setLeads(response.data);
@@ -63,7 +70,9 @@ export default function Leads() {
 
           {/* Filters */}
           <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            
+            {/* 4. NEW: Changed grid-cols-4 to grid-cols-5 to accommodate the new filter */}
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Search</label>
                 <input
@@ -108,6 +117,18 @@ export default function Leads() {
                 </select>
               </div>
 
+              {/* NEW: Added Assigned Salesperson Filter */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Salesperson ID</label>
+                <input
+                  type="number"
+                  placeholder="Enter ID..."
+                  value={assignedSalesperson}
+                  onChange={(e) => setAssignedSalesperson(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">&nbsp;</label>
                 <button
@@ -115,6 +136,7 @@ export default function Leads() {
                     setStatus('');
                     setLeadSource('');
                     setSearch('');
+                    setAssignedSalesperson(''); // NEW: Clear this state too
                   }}
                   className="w-full px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-all"
                 >

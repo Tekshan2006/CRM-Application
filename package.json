@@ -1,0 +1,25 @@
+{
+  "name": "crm-application",
+  "version": "1.0.0",
+  "description": "A full-stack CRM (Customer Relationship Management) application built with **Next.js**, **Node.js + Express**, and **MySQL**. This system allows sales teams to manage leads, track their progress through a sales pipeline, add notes, and view performance analytics.",
+  "main": "index.js",
+ "scripts": {
+    "postinstall": "npm install --prefix backend && npm install --prefix frontend",
+    "dev": "concurrently -n \"BACKEND,FRONTEND\" \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tekshan2006/CRM-Application.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Tekshan2006/CRM-Application/issues"
+  },
+  "homepage": "https://github.com/Tekshan2006/CRM-Application#readme",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
